@@ -25,6 +25,6 @@
 ```
 
 ## Threat Model & Defense-in-Depth Architecture
-1. **Anti-SSRF (Server-Side Request Forgery) Guard:** To prevent attackers from registering internal network addresses (e.g., `[http://127.0.0.1](http://127.0.0.1), [http://169.254.169.254](http://169.254.169.254)`), all target domain hostnames are resolved to IP addresses prior to execution and checked against `ipaddress.is_private / ipaddress.is_loopback` blocks.
+1. **Anti-SSRF (Server-Side Request Forgery) Guard:** To prevent attackers from registering internal network addresses (e.g., `http://127.0.0.1, http://169.254.169.254`), all target domain hostnames are resolved to IP addresses prior to execution and checked against `ipaddress.is_private / ipaddress.is_loopback` blocks.
 2. **Controlled User-Agent & Rate Limiting:** Crawling external merchant sites can inadvertently look like a `DDoS` attack. Requests are dispatched with an configurable rate limiter (`max 10 concurrent HTTP requests per domain`) and identify the agent cleanly via a custom `User-Agent` string.
 3. **Loop Prevention & Depth Bounding:** Crawling is strictly bounded to a maximum recursion depth (`default: 2`) and same-domain links only, preventing infinite loops on bad redirects or dynamic infinite-scroll collection pages.
